@@ -16,8 +16,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Suggests: 
     testthat,
+    palmerpenguins,
     knitr,
-    rmarkdown
+    rmarkdown,
+    DT,
+    dplyr,
+    ggplot2,
+    covr
 VignetteBuilder: knitr
 Depends: 
     R (>= 2.10)

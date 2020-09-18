@@ -1,8 +1,8 @@
 ---
-title: "example vignette"
+title: "An Example Vignette"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{example vignette}
+  %\VignetteIndexEntry{An Example Vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,7 +14,81 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r }
 library(bis557)
 library(palmerpenguins)
+library(DT)
+data(penguins)
+datatable(penguins)
+```
+
+<br><br>
+
+Above is the `penguins` data set form the {palmerpenguins} package.
+
+## Selecting variables and creating a table
+
+```{r}
+library(dplyr)
+library(ggplot2)
+# The "base" way.
+table(penguins$species, penguins$island)
+# The "tidy" way.
+penguins %>%
+  select(species, island) %>%
+  table()
+```
+
+
+## Filtering rows
+
+### base
+```{r}
+table(penguins[penguins$species == "Adelie", "sex"])
+```
+
+### tidy
+```{r}
+penguins %>%
+  filter(species == "Adelie") %>%
+  select(sex) %>%
+  table()
+```
+# Building a model
+
+Let's fit the model:
+
+$$
+\text{bill_length_mm} \sim \text{species} \, \beta_1 + \text{island} \, \beta_2 + \text{sex} \, \beta_3 + \beta_0
+$$
+
+To fit the model we'll run the following code:
+
+```{r}
+fit <- lm(bill_length_mm ~ species + island + sex, data = penguins)
+summary(fit)
+```
+
+Plot the residuals
+```{r}
+library(ggplot2)
+# base
+qs <- qqnorm(fit$residuals, plot.it = FALSE)
+qsd <- as.data.frame(qs)
+ggplot(qsd, aes(x = x, y = y)) + 
+  geom_point() +
+  ylab("Sample Quantiles") +
+  xlab("Theoretical Quantiles") +
+  theme_minimal()
+```
+
+```{r}
+# tidy
+qqnorm(fit$residuals, plot.it = FALSE) %>%
+  as_tibble() %>%
+  ggplot(aes(x = x, y = y)) + 
+    geom_point() +
+    ylab("Sample Quantiles") +
+    xlab("Theoretical Quantiles") +
+    theme_minimal()
 ```

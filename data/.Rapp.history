@@ -1,1 +1,3 @@
 load("/Users/kangxinwang/Desktop/bis557/data/penguinsi.rda")
+load("/Users/kangxinwang/Desktop/bis557/data/lm_patho.rda")
+load("/Users/kangxinwang/Desktop/bis557/data/penguinsi.rda")

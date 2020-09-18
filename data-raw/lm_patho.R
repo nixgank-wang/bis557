@@ -1,3 +1,4 @@
 ## code to prepare `lm_patho` dataset goes here
 
-usethis::use_data(data_raw, overwrite = TRUE)
+lm_patho<- read.csv("/Users/kangxinwang/Desktop/homework1/lm_patho.csv")
+usethis::use_data(lm_patho, overwrite = TRUE)

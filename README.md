@@ -11,8 +11,3 @@ The goal of bis557 is to illustrate how to create an R package for the Yale Bios
 ## Installation
 
 The development version of the packages can be installed from [GitHub](https://github.com/) with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("kaneplusplus/bis557")
-```

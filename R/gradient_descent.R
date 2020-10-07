@@ -1,7 +1,7 @@
 
 #' @title Implement gradient descent for ordinary least squares
 #' @name gradient_descent
-#' @description This is a function implementing gradient descent algorithm to 
+#' @description This is a function implementing gradient descent algorithm to
 #' estimate the parameters in OLS model
 #' @param form A given formula for fitting the regression
 #' @param data A given dataset to fit the model
@@ -10,8 +10,10 @@
 #' @param contrasts list of constasts for factor variables
 
 #' @examples
+#' library(palmerpenguins)
+#' data(penguins)
 #' my_fit =gradient_descent(bill_length_mm ~ ., data = penguins[,-8],alpha=0.1,num_iters=1000)
-#' 
+
 #' @export
 gradient_descent <- function(form,data,alpha,num_iters,contrasts=NULL){
   # remove rows with NA values based on the given formula
@@ -36,7 +38,7 @@ gradient_descent <- function(form,data,alpha,num_iters,contrasts=NULL){
     theta = theta- alpha*(1/length(Y))*(t(X)%*%(X%*%theta - Y))
     J_hist[i]  <- cost(X, Y, theta)
   }
-  results <-list(coefficients=theta)
+  results <-list(coefficients=theta,form=form)
   class(results)<-c("gd_object")
   return(results)
 }

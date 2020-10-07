@@ -91,3 +91,5 @@ Since $\hat{\beta} = (\beta_0,\beta_1)$
 
 We then have $\hat\beta_0 = \bar{y}-\hat{\beta_1}\bar{x}$
 and $\hat\beta_1 = \frac{\sum x_iy_i - \bar{x}\bar{y}}{\sum (x_i-\bar{x})^2}$
+
+

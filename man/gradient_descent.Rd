@@ -22,6 +22,7 @@ This is a function implementing gradient descent algorithm to
 estimate the parameters in OLS model
 }
 \examples{
+library(palmerpenguins)
+data(penguins)
 my_fit =gradient_descent(bill_length_mm ~ ., data = penguins[,-8],alpha=0.1,num_iters=1000)
-
 }

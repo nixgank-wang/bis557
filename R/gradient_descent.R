@@ -37,6 +37,7 @@ gradient_descent <- function(form,data,alpha,num_iters,contrasts=NULL){
     J_hist[i]  <- cost(X, Y, theta)
   }
   results <-list(coefficients=theta)
+  class(results)<-c("gd_object")
   return(results)
 }
 

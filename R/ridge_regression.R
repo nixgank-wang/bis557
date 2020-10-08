@@ -24,6 +24,6 @@ lm_ridge<-function(form,d,lambda){
   sigma <- diag(svd_x$d)
   lambda_I <-diag(rep(lambda,length(svd_x$d)))
   beta <- svd_x$v %*% solve(sigma^2 +lambda_I) %*% sigma %*% t(svd_x$u) %*% Y
-  ret<- list(coefficients= beta)
+  ret<- list(coefficients= beta,form=form)
   ret 
 }

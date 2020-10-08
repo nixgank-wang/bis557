@@ -92,4 +92,33 @@ Since $\hat{\beta} = (\beta_0,\beta_1)$
 We then have $\hat\beta_0 = \bar{y}-\hat{\beta_1}\bar{x}$
 and $\hat\beta_1 = \frac{\sum x_iy_i - \bar{x}\bar{y}}{\sum (x_i-\bar{x})^2}$
 
+## 2 Implement a new function fitting the OLS model using gradient descent that calculates the penalty based on the out-of-sample accuracy. Create test code. How does it compare to the OLS model? 
 
+To compare the two model's accuracy, we compare the residuals of both models fitting to the same dataset
+
+```{r error=T}
+library(bis557)
+library(rsample)
+library(palmerpenguins)
+data(penguins)
+library(foreach)
+
+  grab_resids <- function(form,data,num_iters,v){
+  #create cross-validation folds for out-of-sample accuracy
+  v=10
+  folds<- vfold_cv(data,v=v)
+  y_name<- as.character(form)[2]
+  resids<-foreach(fold=folds$splits,.combine = c) %do% {
+    fit<- lm(form,analysis(fold))
+    as.vector(as.matrix(assessment(fold)[,y_name],ncol=1))-as.vector(predict(fit,assessment(fold)))
+  }
+  
+}
+form = bill_length_mm ~ .
+data= penguins[,-8]
+
+grab_resids(form=form, data = data,num_iters=1000,v=10)  
+gradient_descent_loss(form=form, data = data,alpha=0.1,num_iters=1000,v=10)
+
+# The residual from the model adjusted for out-of-sample accuracy is close to that of the OLS gradient descent model, our model works well.
+```

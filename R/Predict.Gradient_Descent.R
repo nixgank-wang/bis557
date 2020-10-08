@@ -21,3 +21,16 @@ predict.gd_object <- function (object, ...) {
   m <- model.matrix(object$form, d)
   m %*% object$coefficients
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -19,5 +19,5 @@ prediction based on the model.
 library(palmerpenguins)
 data(penguins)
 my_fit =gradient_descent(bill_length_mm ~ ., data = penguins[,-8],alpha=0.1,num_iters=1000)
-my_gd_predict = predict.gd_object(my_fit,data = penguins[,-8])
+my_gd_predict = predict.gd_object(my_fit,penguins[,-8])
 }

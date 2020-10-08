@@ -4,7 +4,7 @@ library(MASS)
 
 context("Test the performance of ridge regression function")
 
-test_that("Your ridge_regression() function works well", {
+test_that("Your lm_ridge() function works well", {
 
   set.seed(11)
   X <- matrix(rnorm(400), ncol = 4)

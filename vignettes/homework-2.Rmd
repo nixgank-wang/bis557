@@ -102,7 +102,7 @@ library(rsample)
 library(palmerpenguins)
 data(penguins)
 library(foreach)
-
+# grab residuals from the OLS gradient descent model given data and formula
   grab_resids <- function(form,data,num_iters,v){
   #create cross-validation folds for out-of-sample accuracy
   v=10
@@ -122,3 +122,46 @@ gradient_descent_loss(form=form, data = data,alpha=0.1,num_iters=1000,v=10)
 
 # The residual from the model adjusted for out-of-sample accuracy is close to that of the OLS gradient descent model, our model works well.
 ```
+
+
+## 3. Implement a ridge regression function taking into account colinear (or nearly colinear) regression variables. 
+```{r}
+
+```
+
+##4. Implement your own method and testing for optimizing the ridge parameter $\lambda$.
+
+
+
+
+## 5 Consider the LASSO penalty
+$$
+\frac{1}{2n} ||Y - X \beta||_2^2 + \lambda ||\beta||_1.
+$$
+Show that if $|X_j^TY| \leq n \lambda$, then $\widehat \beta^{\text{LASSO}}$ must be zero.
+For Lasso we have, 
+$$
+\frac{1}{2n} ||Y - X \beta||_2^2 + \lambda ||\beta||_1.
+$$
+Assume that the design matrix X is orthogonal so that no collinearity will arise, such that
+$X^TX= ||X||_{2}^{2}=I$ <br/>
+Hence $$\frac{1}{2n} ||Y - X \beta||_2^2 + \lambda ||\beta||_1 
+=\frac{1}{2n}(Y^{T} Y+\beta^{T} X^{T} X \beta-2 X^TY \beta)+\lambda|\beta| 
+= \frac{1}{2n}Y^Ty+ \frac{1}{2n}\sum(\beta_{j}^2-2\beta_jX_j^TY +2n\lambda|\beta_j|)$$
+Take partial derivative with respect to $\beta_j$ to 0 yields
+$$\frac{d (\frac{1}{2n} ||Y - X \beta||_2^2 + \lambda ||\beta||_1 )}{d\beta_j} =
+2\beta_j -2 X_j^TY +2\lambda n =0
+$$ when $\beta_j >0 $ 
+$\hat\beta^{lasso}=\hat\beta_j=X_j^TY -\lambda n >0$ so $X_j^TY >\lambda n $
+Since we have restraint condition such that $|X_j^TY| \leq n \lambda$ 
+so in this case we have $|X_j^TY|= \lambda$ to fulfill both conditions. 
+Hence $\hat\beta^{lasso} =0 $ when $\beta_j >0 $  <br/>
+
+
+Likewise, 
+$$\frac{d (\frac{1}{2n} ||Y - X \beta||_2^2 + \lambda ||\beta||_1 )}{d\beta_j} =
+2\beta_j -2 X_j^TY -2\lambda n =0
+$$ when $\beta_j <0 $ <br/>
+$\hat\beta^{lasso}=\hat\beta_j=X_j^TY + \lambda n <0$ so $X_j^TY >\lambda n $
+With the constraint, we still get  $\hat\beta^{lasso} =0 $. 
+Hence if given $|X_j^TY| \leq n \lambda$, then $\widehat \beta^{\text{LASSO}}$ must be zero.

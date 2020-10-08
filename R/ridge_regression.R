@@ -11,7 +11,6 @@
 #' data(penguins)
 #' my_rigde = lm_ridge(form=bill_length_mm ~ .,d=penguins,lambda=0.001)
 #' @export
-
 lm_ridge<-function(form,d,lambda){
   #grab design matrix and response vector from given input
   d_no_na<-model.frame(form,d)
@@ -25,5 +24,6 @@ lm_ridge<-function(form,d,lambda){
   lambda_I <-diag(rep(lambda,length(svd_x$d)))
   beta <- svd_x$v %*% solve(sigma^2 +lambda_I) %*% sigma %*% t(svd_x$u) %*% Y
   ret<- list(coefficients= beta,form=form)
+  class(ret)<- "ridge_object"
   ret 
 }

@@ -126,12 +126,25 @@ gradient_descent_loss(form=form, data = data,alpha=0.1,num_iters=1000,v=10)
 
 ## 3. Implement a ridge regression function taking into account colinear (or nearly colinear) regression variables. 
 ```{r}
-
+data("penguins")
+penguins$bill_length_colinear= penguins$bill_length_mm *2
+#implement ridge regression function 
+form= body_mass_g~.
+data = penguins
+library(bis557)
+#Implement ridge regression
+lm_ridge(form=form, penguins, lambda = 0.01)
 ```
 
 ##4. Implement your own method and testing for optimizing the ridge parameter $\lambda$.
 
+```{r error=True}
+data("iris")
 
+form= Sepal.Length~.
+lambdas = seq(0,2,by=0.01)
+lambda_optimizer(form=form,data=iris,v=10,lambdas=lambdas)
+```
 
 
 ## 5 Consider the LASSO penalty

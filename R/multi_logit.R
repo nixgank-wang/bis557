@@ -13,15 +13,17 @@
 #' multinom_logit(form=form,data=my_penguins)
 #' @export
 multinom_logit<- function(form,data,maxit=25,tol=1e-10){
+  #create design matrix and label vector given formula and data
   label_name = as.character(form)[2]
   y<- as.factor(matrix(as.list(data)[label_name]))
   X<- model.matrix(form,data)
   class_num<- length(unique(y))
-
+  # initialize the parameter as a matrix, with the dimension of number of parameter * number of classes
   beta <- matrix(0,nrow=class_num,ncol=ncol(X))
   beta_old <- matrix(0,num,ncol(X))
+  #claim we are using logisitic regression
   family= binomial(link = "logit")
-
+  # the following code is referenced from textbook, solve generalized linear models with Newton-Ralphson method
   for(j in seq_len(maxit)){
     for (i in 1:class_num){
       curr_label<-as.numeric(levels(y)[i])
@@ -38,5 +40,6 @@ multinom_logit<- function(form,data,maxit=25,tol=1e-10){
       if(sqrt(crossprod(beta[i,] - beta_old[i,])) < tol) break
     }
   }
+  #return regression matrix beta
   return(beta)
 }

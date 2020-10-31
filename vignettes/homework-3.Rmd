@@ -1,0 +1,53 @@
+---
+title: "homework-3"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{homework-3}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(bis557)
+```
+
+#Problem 1 
+
+
+
+
+#Problem 2 
+Describe and implement a first-order solution for the GLM maximum likelihood problem using only
+gradient information, avoiding the Hessian matrix. Include both a constant step size along with an adaptive one. You may use a standard adaptive update Momentum, Nesterov, AdaGrad, Adam, or your own.
+```{r}
+library(tidyverse)
+#create demo dataset
+pd <- tibble(offers=c(rep(0,50),rep(1,30),rep(2,10),rep(3,7),rep(4,3)),
+division=sample(c("A","B","C"),100,replace = TRUE),
+exam=c(runif(50,60,80),runif(30,65,95),runif(20,75,95)))
+y<- matrix(pd$offers,ncol = 1)
+X<- model.matrix(offers~division+exam,data=pd)
+#implement first-order solution for GLM with constant step size
+constant<-gdConstantGLM(X,y,mu_fun=function(eta) exp(eta),lambda = 1e-3)$beta
+#implement first-order solution for GLM with adaptive update by momentum gradient descent algorithm
+momentum<-gdMomentum_GLM(X,y,mu_fun=function(eta) exp(eta),lambda = 1e-3)$beta
+(compare<-cbind(constant,momentum))
+```
+#Problem 3
+Describe and implement a classification model generalizing logistic regression to accommodate more than two classes.
+```{r}
+library(palmerpenguins)
+data(penguins)
+form = is_gentoo ~ body_mass_g +bill_length_mm
+# create dataset
+my_penguins<- penguins %>% mutate(is_gentoo = as.numeric(species == "Gentoo")) %>% model.frame(form,.)
+#apply multinom_logit function to see the performance of classification
+multinom_logit(form=form,data=my_penguins)
+```

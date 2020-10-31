@@ -19,9 +19,17 @@ library(bis557)
 ```
 
 #Problem 1 
-
-
-
+We mentioned that the Hessian matrix in Equation 5.19 can be more ill- conditioned than the matrix XtX itself. 
+Generate a matrix X and propabilities p such that the linear Hessian (XtX) is well-conditioned but the
+logistic variation is not.
+Build up a linear Hessian that is well-conditioned, we make sure the condition number is small. When the probabilities are close to 0 or 1, the logistic variation is ill-conditoned.
+```{r}
+X<- matrix(rnorm(100),20)
+solve(t(X)%*%X)
+#set vector p to be close to 0
+p<- c(1e-3,1e-4,1e-5,1e-6,1e-7)
+solve(X%*%diag(p*(1-p))%*%t(X))
+```
 
 #Problem 2 
 Describe and implement a first-order solution for the GLM maximum likelihood problem using only
